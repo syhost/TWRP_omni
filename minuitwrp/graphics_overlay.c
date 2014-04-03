@@ -64,7 +64,10 @@ typedef struct {
     struct ion_handle_data handle_data;
 } memInfo;
 
-static int overlay_id = MSMFB_NEW_REQUEST;
+//Left and right overlay id
+static int overlayL_id = MSMFB_NEW_REQUEST;
+static int overlayR_id = MSMFB_NEW_REQUEST;
+
 static memInfo mem_info;
 
 static int map_mdp_pixel_format()
