@@ -42,9 +42,12 @@
 #include <linux/fb.h>
 #include <linux/kd.h>
 
-#ifdef MSM_BSP
+#ifndef MSM_BSP
 #include <msm_mdp.h>
 #include <msm_ion.h>
+#else
+#include <linux/msm_mdp.h>
+#include <linux/msm_ion.h>
 #endif
 
 #include <pixelflinger/pixelflinger.h>
@@ -87,7 +90,7 @@ static bool isMDP5 = false;
 
 bool target_has_overlay(char *version)
 {
-    int ret;
+#ifdef MSM_BSP
     int mdp_version;
 
     if (strlen(version) >= 8) {
@@ -104,7 +107,7 @@ bool target_has_overlay(char *version)
             isMDP5 = true;
         }
     }
-if (overlay_supported) printf("Using qcomm overlay\n");
+#endif
     return overlay_supported;
 }
 
