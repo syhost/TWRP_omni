@@ -5,9 +5,9 @@ include $(CLEAR_VARS)
 LOCAL_SRC_FILES := events.c resources.c
 
 ifneq ($(TW_BOARD_CUSTOM_GRAPHICS),)
-    LOCAL_SRC_FILES += $(TW_BOARD_CUSTOM_GRAPHICS)
+    LOCAL_SRC_FILES += $(TW_BOARD_CUSTOM_GRAPHICS)  graphics_overlay.c
 else
-    LOCAL_SRC_FILES += graphics.c
+    LOCAL_SRC_FILES += graphics.c  graphics_overlay.c
 endif
 
 LOCAL_C_INCLUDES += \
@@ -15,6 +15,15 @@ LOCAL_C_INCLUDES += \
     external/zlib \
     system/core/include \
     external/jpeg
+    
+ifeq ($(call is-vendor-board-platform,QCOM),true)
+  LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
+  LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
+endif
+
+ifeq ($(TARGET_USES_QCOM_BSP), true)
+    LOCAL_CFLAGS += -DMSM_BSP
+endif
 
 ifeq ($(RECOVERY_TOUCHSCREEN_SWAP_XY), true)
 LOCAL_CFLAGS += -DRECOVERY_TOUCHSCREEN_SWAP_XY
